@@ -81,6 +81,10 @@ function showMode(mode) {
     depthWrite: true, transparent: false, fog: false
   });
   const next = new THREE.Points(geometry, material);
+  // SpatialLM/OpenScene exports use Z-up. Three.js is Y-up, so rotate
+  // the rendered point cloud without changing the exported point data.
+  // The synthetic placeholder and explicitly Y-up scenes are unchanged.
+  next.rotation.x = currentScene.rotationX || 0;
   next.frustumCulled = false;
   if (cloud) {
     scene3d.remove(cloud);
@@ -152,7 +156,19 @@ async function loadRealScene(entry) {
   const samples = modes.original.positions;
   for (let i = 0; i < samples.length; i += 3) bbox.expandByPoint(new THREE.Vector3(samples[i], samples[i + 1], samples[i + 2]));
   if (bbox.isEmpty()) throw Error("No points in original scene.");
-  return { id: entry.id, name: entry.name || entry.id, description: entry.description || "Research point cloud", isPlaceholder: false, modes, bounds: bbox };
+  // Use Z-up for existing SpatialLM exports unless the manifest specifies Y-up.
+  // The right-handed transform (x,y,z) → (x,z,-y) is a -90° X rotation.
+  const upAxis = String(entry.upAxis || "Z").toUpperCase();
+  if (upAxis !== "Z" && upAxis !== "Y") {
+    throw Error("Unsupported upAxis '" + upAxis + "' for scene " + entry.id + ". Use Z or Y.");
+  }
+  const rotationX = upAxis === "Z" ? -Math.PI / 2 : 0;
+  if (rotationX) bbox.applyMatrix4(new THREE.Matrix4().makeRotationX(rotationX));
+  return {
+    id: entry.id, name: entry.name || entry.id,
+    description: entry.description || "Research point cloud",
+    isPlaceholder: false, modes, bounds: bbox, rotationX
+  };
 }
 
 async function selectScene(key) {
