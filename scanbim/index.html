@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1221">
+  <meta name="description" content="ScanBIM: interactively explore global and object-conditioned material pseudo-labels on 3D indoor point clouds.">
+  <title>ScanBIM | Interactive 3D Material Explorer</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
+  </script>
+</head>
+<body>
+  <div class="shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="ScanBIM home">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m16 3 12 7v12l-12 7L4 22V10l12-7Z" stroke="currentColor" stroke-width="1.7"/><path d="m4 10 12 7 12-7M16 17v12" stroke="currentColor" stroke-width="1.7"/><path d="m10 13.5 12-7M10 20.5l12-7" stroke="currentColor" stroke-width="1.1" opacity=".6"/></svg></span>
+        <span>SCAN<span class="brand-emphasis">BIM</span><span class="brand-sub"> / INTERACTIVE LAB</span></span>
+      </a>
+      <div class="header-right"><span class="header-dot"></span><span>3D MATERIAL EXPLORER</span><span class="version">v0.1</span></div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar">
+        <div class="sidebar-scroll">
+          <div class="eyebrow"><span class="tiny-square"></span> RESEARCH VISUALIZATION</div>
+          <h1>See the scene.<br><em>Explore the materials.</em></h1>
+          <p class="intro">Compare original RGB point clouds with global, object-conditioned, and hybrid material pseudo-labels.</p>
+
+          <section class="control-section">
+            <div class="section-head"><span class="section-number">01</span><h2>Scene</h2></div>
+            <label class="field-label" for="sceneSelect">AVAILABLE POINT CLOUDS</label>
+            <div class="select-wrap"><select id="sceneSelect" aria-label="Select a scene"><option value="placeholder">Illustrative indoor scene</option></select><span class="select-chevron">⌄</span></div>
+            <div class="scene-info"><span id="scenePointCount">— points</span><span id="sceneType">Sample geometry</span></div>
+          </section>
+
+          <section class="control-section mode-section">
+            <div class="section-head"><span class="section-number">02</span><h2>Visualization mode</h2></div>
+            <div class="mode-list" role="group" aria-label="Visualization mode">
+              <button type="button" class="mode-button active" data-mode="original" aria-pressed="true"><span class="mode-symbol original-symbol"></span><span class="mode-copy"><strong>Original</strong><small>RGB appearance</small></span><kbd>1</kbd></button>
+              <button type="button" class="mode-button" data-mode="methodA" aria-pressed="false"><span class="mode-symbol a-symbol">A</span><span class="mode-copy"><strong>Method A</strong><small>Global material prompting</small></span><kbd>2</kbd></button>
+              <button type="button" class="mode-button" data-mode="methodB" aria-pressed="false"><span class="mode-symbol b-symbol">B</span><span class="mode-copy"><strong>Method B</strong><small>Object-conditioned prompting</small></span><kbd>3</kbd></button>
+              <button type="button" class="mode-button" data-mode="hybrid" aria-pressed="false"><span class="mode-symbol hybrid-symbol">H</span><span class="mode-copy"><strong>Hybrid</strong><small>Global coverage + refinement</small></span><kbd>4</kbd></button>
+            </div>
+            <p id="modeExplanation" class="mode-explanation">The point cloud rendered using its original RGB colors.</p>
+          </section>
+
+          <section class="control-section">
+            <div class="section-head"><span class="section-number">03</span><h2>Display</h2></div>
+            <div class="setting-row"><label for="pointSize">Point size</label><output id="pointSizeValue" for="pointSize">2.0 px</output></div>
+            <input type="range" id="pointSize" min="1" max="5" step="0.25" value="2" aria-label="Point size in pixels">
+            <label class="check-row"><input type="checkbox" id="showGrid" checked><span>Show reference grid</span></label>
+            <label class="check-row"><input type="checkbox" id="autoRotate"><span>Auto-rotate camera</span></label>
+          </section>
+
+          <section class="control-section legend-section">
+            <div class="section-head"><span class="section-number">04</span><h2>Material legend</h2></div>
+            <div id="legend" class="legend-grid" aria-label="Material colors">
+              <div><i style="--swatch:#975a2b"></i>Wood</div>
+              <div><i style="--swatch:#a2a2a2"></i>Metal</div>
+              <div><i style="--swatch:#6e6e6e"></i>Concrete</div>
+              <div><i style="--swatch:#75c8f9"></i>Glass</div>
+              <div><i style="--swatch:#da44af"></i>Plastic</div>
+              <div><i style="--swatch:#dda25b"></i>Fabric</div>
+              <div><i style="--swatch:#f5f4dc"></i>Plasterboard</div>
+              <div><i style="--swatch:#3c9ed2"></i>Tile</div>
+            </div>
+            <p class="legend-note">Materials are model-generated pseudo-labels, not verified material annotations.</p>
+          </section>
+        </div>
+        <div class="sidebar-bottom"><span class="footer-mark">SB</span><div><strong>ScanBIM research demo</strong><span>Material-aware indoor point clouds</span></div></div>
+      </aside>
+
+      <main class="stage" aria-label="Interactive three-dimensional viewer">
+        <div id="viewerCanvas" class="viewer-canvas"></div>
+        <div class="stage-top">
+          <div class="scene-badge"><span class="live-icon"></span><span id="sceneBadge">ILLUSTRATIVE SCENE</span></div>
+          <div id="placeholderBadge" class="placeholder-badge">SYNTHETIC PLACEHOLDER · NOT STUDY DATA</div>
+        </div>
+        <div class="view-compass"><div class="compass-disc"><span class="compass-n">N</span><span class="compass-cross">✛</span></div><span>3D VIEW</span></div>
+        <div class="viewer-center-note" id="loadingStatus" role="status">Initializing interactive viewer…</div>
+        <div class="stage-bottom">
+          <div class="viewer-hint"><span class="mouse-symbol">◌</span><span><strong>Left drag</strong> rotate</span><span class="sep"></span><span><strong>Scroll</strong> zoom</span><span class="sep"></span><span><strong>Right drag</strong> pan</span></div>
+          <div class="stage-actions">
+            <button type="button" class="icon-button" id="resetView" title="Reset camera" aria-label="Reset camera"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 18v-7h7"/></svg></button>
+            <button type="button" class="icon-button" id="screenshot" title="Save a screenshot" aria-label="Save a screenshot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h4l2-3h4l2 3h4v13H4V7Z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+            <button type="button" class="icon-button" id="fullscreen" title="Toggle fullscreen" aria-label="Toggle fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/></svg></button>
+          </div>
+        </div>
+        <div id="errorPanel" class="error-panel" hidden></div>
+      </main>
+    </div>
+
+    <footer class="site-footer"><span>SCANBIM · RESEARCH PREVIEW</span><span id="footStatus">Ready for exploration</span><a href="https://github.com/isharifi/isharifi.github.io/tree/main/scanbim" target="_blank" rel="noopener noreferrer">View source ↗</a></footer>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
