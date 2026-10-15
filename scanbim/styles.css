@@ -68,6 +68,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:2px solid #152
 .legend-grid>div{display:flex;align-items:center;gap:9px;font-size:14px;color:#aabbd0}
 .legend-grid i{display:block;width:13px;height:13px;background:var(--swatch);border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.15);flex:none}
 .legend-note{font-size:13px;color:#738aa3;line-height:1.65;margin:15px 0 0}
+.source-credit{display:block;margin-top:9px;color:#91a5bd}
+.source-credit a{color:#9fdad1;text-decoration:underline;text-underline-offset:2px}
 .sidebar-bottom{padding:16px 24px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;background:#0b1424}
 .footer-mark{width:30px;height:30px;border-radius:7px;background:#1e3446;color:var(--accent);display:grid;place-items:center;font-weight:850;font-size:10px;letter-spacing:.06em}
 .sidebar-bottom div{display:flex;flex-direction:column;gap:3px}
