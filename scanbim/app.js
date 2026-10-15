@@ -11,6 +11,15 @@ const modeDetails = {
   hybrid: "Method B labels refine annotated regions; Method A labels cover the remaining scene."
 };
 const requestedModes = ["original", "methodA", "methodB", "hybrid"];
+// Source coordinate up directions; all rendered scenes use Three.js +Y-up.
+const UP_AXES = {
+  Z: new THREE.Vector3(0, 0, 1),
+  "-Z": new THREE.Vector3(0, 0, -1),
+  Y: new THREE.Vector3(0, 1, 0),
+  "-Y": new THREE.Vector3(0, -1, 0),
+  X: new THREE.Vector3(1, 0, 0),
+  "-X": new THREE.Vector3(-1, 0, 0)
+};
 
 let renderer, camera, controls, grid, cloud, currentScene, currentMode = "original";
 let sceneRegistry = [];
@@ -81,10 +90,9 @@ function showMode(mode) {
     depthWrite: true, transparent: false, fog: false
   });
   const next = new THREE.Points(geometry, material);
-  // SpatialLM/OpenScene exports use Z-up. Three.js is Y-up, so rotate
-  // the rendered point cloud without changing the exported point data.
-  // The synthetic placeholder and explicitly Y-up scenes are unchanged.
-  next.rotation.x = currentScene.rotationX || 0;
+  // Apply the single source-to-Three.js orientation to all four modes.
+  // Source xyz and RGB data are never modified.
+  next.quaternion.copy(currentScene.orientationQuaternion || new THREE.Quaternion());
   next.frustumCulled = false;
   if (cloud) {
     scene3d.remove(cloud);
@@ -156,19 +164,53 @@ async function loadRealScene(entry) {
   const samples = modes.original.positions;
   for (let i = 0; i < samples.length; i += 3) bbox.expandByPoint(new THREE.Vector3(samples[i], samples[i + 1], samples[i + 2]));
   if (bbox.isEmpty()) throw Error("No points in original scene.");
-  // Use Z-up for existing SpatialLM exports unless the manifest specifies Y-up.
-  // The right-handed transform (x,y,z) → (x,z,-y) is a -90° X rotation.
+  // Preserve unmodified bounds. A per-scene orientation is applied when selected.
   const upAxis = String(entry.upAxis || "Z").toUpperCase();
-  if (upAxis !== "Z" && upAxis !== "Y") {
-    throw Error("Unsupported upAxis '" + upAxis + "' for scene " + entry.id + ". Use Z or Y.");
+  if (!Object.prototype.hasOwnProperty.call(UP_AXES, upAxis)) {
+    throw Error("Unsupported upAxis '" + upAxis + "' for scene " + entry.id);
   }
-  const rotationX = upAxis === "Z" ? -Math.PI / 2 : 0;
-  if (rotationX) bbox.applyMatrix4(new THREE.Matrix4().makeRotationX(rotationX));
   return {
     id: entry.id, name: entry.name || entry.id,
     description: entry.description || "Research point cloud",
-    isPlaceholder: false, modes, bounds: bbox, rotationX
+    isPlaceholder: false, modes,
+    upAxis,
+    sourceBounds: bbox,
+    bounds: bbox.clone()
   };
+}
+
+function preferredSceneUpAxis(scene) {
+  const fallback = scene.isPlaceholder ? "Y" : (scene.upAxis || "Z");
+  try {
+    const saved = window.localStorage.getItem("scanbim.upAxis." + scene.id);
+    if (saved && Object.prototype.hasOwnProperty.call(UP_AXES, saved)) return saved;
+  } catch (cause) {
+    console.info("Orientation preferences unavailable in this browser:", cause);
+  }
+  return Object.prototype.hasOwnProperty.call(UP_AXES, fallback) ? fallback : "Z";
+}
+
+function setSceneOrientation(axis, savePreference = false) {
+  if (!currentScene || !Object.prototype.hasOwnProperty.call(UP_AXES, axis)) return;
+  const sourceBounds = currentScene.sourceBounds || currentScene.bounds;
+  const rotation = new THREE.Quaternion().setFromUnitVectors(
+    UP_AXES[axis], UP_AXES.Y
+  );
+  currentScene.orientationQuaternion = rotation;
+  currentScene.bounds = sourceBounds.clone().applyMatrix4(
+    new THREE.Matrix4().makeRotationFromQuaternion(rotation)
+  );
+  currentScene.activeUpAxis = axis;
+  $("sceneUpAxis").value = axis;
+  if (cloud) cloud.quaternion.copy(rotation);
+  resetCamera();
+  if (savePreference && !currentScene.isPlaceholder) {
+    try {
+      window.localStorage.setItem("scanbim.upAxis." + currentScene.id, axis);
+    } catch (cause) {
+      console.info("Orientation preference could not be saved:", cause);
+    }
+  }
 }
 
 async function selectScene(key) {
@@ -180,11 +222,12 @@ async function selectScene(key) {
     const data = key === "placeholder" ? createIllustrativeScene() : await loadRealScene(entry);
     if (token !== loadToken) return;
     currentScene = data;
+    if (!currentScene.sourceBounds) currentScene.sourceBounds = currentScene.bounds.clone();
+    setSceneOrientation(preferredSceneUpAxis(currentScene), false);
     $("sceneBadge").textContent = data.isPlaceholder ? "ILLUSTRATIVE INDOOR SCENE" : data.name.toUpperCase();
     $("placeholderBadge").hidden = !data.isPlaceholder;
     $("sceneType").textContent = data.isPlaceholder ? "Synthetic preview" : "Experimental scene";
     showMode(currentMode);
-    resetCamera();
     loading("");
   } catch (e) {
     console.error(e);
@@ -262,6 +305,7 @@ async function initScenes() {
 
 modeButtons.forEach((button) => button.addEventListener("click", () => showMode(button.dataset.mode)));
 $("sceneSelect").addEventListener("change", (event) => selectScene(event.target.value));
+$("sceneUpAxis").addEventListener("change", (event) => setSceneOrientation(event.target.value, true));
 $("pointSize").addEventListener("input", (event) => {
   const n = Number(event.target.value);
   $("pointSizeValue").textContent = n.toFixed(n % 1 ? 2 : 1) + " px";
