@@ -99,7 +99,9 @@ dataset (x, y, z)  →  viewer (x, z, -y)
 
 The same transform is applied to Original, Method A, Method B, and Hybrid. Camera framing and the reference grid use the transformed bounds. The illustrative placeholder is authored directly in Y-up and is not rotated.
 
-In `scenes.json`, an individual scene may override the default with `"upAxis": "Y"` if its source point cloud is already Y-up; other datasets may keep `"upAxis": "Z"` explicitly. Changes to the point data or re-exporting scene files are **not required** to change the up-axis metadata.
+Use the **Scene orientation (source up axis)** dropdown in the viewer to try `+Z`, `−Z`, `+Y`, `−Y`, `+X`, or `−X` as the source up direction if a scene appears tipped or inverted. The viewer applies the selected rotation consistently to Original, Method A, Method B, and Hybrid, and recalculates the bounding box and camera. Each selection is remembered for that scene in the current browser using local storage; it does not change the hosted data or other visitors' settings.
+
+For a permanent published default, set the scene's `"upAxis"` in `scenes.json` to a supported value such as `"Y"`, `"-Y"`, `"X"`, `"-X"`, `"Z"`, or `"-Z"` after inspecting the actual scene. The SpatialLM default is `"Z"`. Changes to the point data or re-exporting scene files are **not required** to change the up-axis metadata.
 
 ## Research interpretation
 
