@@ -179,38 +179,17 @@ async function loadRealScene(entry) {
   };
 }
 
-function preferredSceneUpAxis(scene) {
-  const fallback = scene.isPlaceholder ? "Y" : (scene.upAxis || "Z");
-  try {
-    const saved = window.localStorage.getItem("scanbim.upAxis." + scene.id);
-    if (saved && Object.prototype.hasOwnProperty.call(UP_AXES, saved)) return saved;
-  } catch (cause) {
-    console.info("Orientation preferences unavailable in this browser:", cause);
-  }
-  return Object.prototype.hasOwnProperty.call(UP_AXES, fallback) ? fallback : "Z";
-}
-
-function setSceneOrientation(axis, savePreference = false) {
-  if (!currentScene || !Object.prototype.hasOwnProperty.call(UP_AXES, axis)) return;
-  const sourceBounds = currentScene.sourceBounds || currentScene.bounds;
-  const rotation = new THREE.Quaternion().setFromUnitVectors(
-    UP_AXES[axis], UP_AXES.Y
-  );
-  currentScene.orientationQuaternion = rotation;
-  currentScene.bounds = sourceBounds.clone().applyMatrix4(
+function applySceneOrientation(scene) {
+  // SpatialLM/OpenScene research scenes are Z-up; the synthetic placeholder
+  // was authored Y-up. Optional scene manifest upAxis can handle future datasets.
+  // No browser override: previously stored selections cannot affect rendering.
+  const axis = scene.isPlaceholder ? "Y" : (scene.upAxis || "Z");
+  const rotation = new THREE.Quaternion().setFromUnitVectors(UP_AXES[axis], UP_AXES.Y);
+  scene.orientationQuaternion = rotation;
+  const sourceBounds = scene.sourceBounds || scene.bounds;
+  scene.bounds = sourceBounds.clone().applyMatrix4(
     new THREE.Matrix4().makeRotationFromQuaternion(rotation)
   );
-  currentScene.activeUpAxis = axis;
-  $("sceneUpAxis").value = axis;
-  if (cloud) cloud.quaternion.copy(rotation);
-  resetCamera();
-  if (savePreference && !currentScene.isPlaceholder) {
-    try {
-      window.localStorage.setItem("scanbim.upAxis." + currentScene.id, axis);
-    } catch (cause) {
-      console.info("Orientation preference could not be saved:", cause);
-    }
-  }
 }
 
 async function selectScene(key) {
@@ -223,7 +202,8 @@ async function selectScene(key) {
     if (token !== loadToken) return;
     currentScene = data;
     if (!currentScene.sourceBounds) currentScene.sourceBounds = currentScene.bounds.clone();
-    setSceneOrientation(preferredSceneUpAxis(currentScene), false);
+    applySceneOrientation(currentScene);
+    resetCamera();
     $("sceneBadge").textContent = data.isPlaceholder ? "ILLUSTRATIVE INDOOR SCENE" : data.name.toUpperCase();
     $("placeholderBadge").hidden = !data.isPlaceholder;
     $("sceneType").textContent = data.isPlaceholder ? "Synthetic preview" : "Experimental scene";
@@ -305,7 +285,6 @@ async function initScenes() {
 
 modeButtons.forEach((button) => button.addEventListener("click", () => showMode(button.dataset.mode)));
 $("sceneSelect").addEventListener("change", (event) => selectScene(event.target.value));
-$("sceneUpAxis").addEventListener("change", (event) => setSceneOrientation(event.target.value, true));
 $("pointSize").addEventListener("input", (event) => {
   const n = Number(event.target.value);
   $("pointSizeValue").textContent = n.toFixed(n % 1 ? 2 : 1) + " px";
