@@ -89,6 +89,18 @@ The converter uses a 16-byte-per-point record: three little-endian float32 coord
 
 The default limit of 180,000 points per mode keeps web data manageable. Point selection is deterministic given the seed. When PLY vertex ordering matches, the exact same indices are used for all modes. Larger source clouds can be visualized with higher \`--max-points\` settings if necessary.
 
+## Coordinate system and orientation
+
+**SpatialLM/OpenScene PLY exports are treated as Z-up**; the viewer uses the conventional Three.js Y-up scene. To display the clouds upright without editing the source PLY or exported binary values, it applies a -90° rotation around the X axis:
+
+```text
+dataset (x, y, z)  →  viewer (x, z, -y)
+```
+
+The same transform is applied to Original, Method A, Method B, and Hybrid. Camera framing and the reference grid use the transformed bounds. The illustrative placeholder is authored directly in Y-up and is not rotated.
+
+In `scenes.json`, an individual scene may override the default with `"upAxis": "Y"` if its source point cloud is already Y-up; other datasets may keep `"upAxis": "Z"` explicitly. Changes to the point data or re-exporting scene files are **not required** to change the up-axis metadata.
+
 ## Research interpretation
 
 This viewer is for inspecting *material pseudo-labels* and contextual effects, **not ground-truth material accuracy**. Method B and Hybrid depend on structured object annotations. Areas without annotations may be omitted in Method B mode. Color correspondence and class lists should be documented when experimental scenes are added.
