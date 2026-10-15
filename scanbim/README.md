@@ -91,17 +91,22 @@ The default limit of 180,000 points per mode keeps web data manageable. Point se
 
 ## Coordinate system and orientation
 
-**SpatialLM/OpenScene PLY exports are treated as Z-up**; the viewer uses the conventional Three.js Y-up scene. To display the clouds upright without editing the source PLY or exported binary values, it applies a -90° rotation around the X axis:
+**All existing SpatialLM/OpenScene scenes use +Z up by default.** The viewer
+converts their coordinates to Three.js's +Y-up display using a −90° X-axis
+rotation, without changing the published binary point clouds:
 
 ```text
-dataset (x, y, z)  →  viewer (x, z, -y)
+source (x, y, z)  →  display (x, z, −y)
 ```
 
-The same transform is applied to Original, Method A, Method B, and Hybrid. Camera framing and the reference grid use the transformed bounds. The illustrative placeholder is authored directly in Y-up and is not rotated.
+The same transform is used in Original, Method A, Method B, and Hybrid.
+The camera framing and reference grid follow the transformed bounds.
+The synthetic illustrative preview is already +Y up and is not rotated.
 
-Use the **Scene orientation (source up axis)** dropdown in the viewer to try `+Z`, `−Z`, `+Y`, `−Y`, `+X`, or `−X` as the source up direction if a scene appears tipped or inverted. The viewer applies the selected rotation consistently to Original, Method A, Method B, and Hybrid, and recalculates the bounding box and camera. Each selection is remembered for that scene in the current browser using local storage; it does not change the hosted data or other visitors' settings.
-
-For a permanent published default, set the scene's `"upAxis"` in `scenes.json` to a supported value such as `"Y"`, `"-Y"`, `"X"`, `"-X"`, `"Z"`, or `"-Z"` after inspecting the actual scene. The SpatialLM default is `"Z"`. Changes to the point data or re-exporting scene files are **not required** to change the up-axis metadata.
+The orientation selector was removed from the public UI. Browser-stored
+orientation preferences no longer affect rendering. If future datasets have
+another source coordinate convention, an optional `"upAxis"` field in
+`scenes.json` can specify it; the existing 25 research scenes retain +Z.
 
 ## Research interpretation
 
