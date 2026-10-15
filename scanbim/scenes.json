@@ -1,4 +1,580 @@
 {
   "version": 1,
-  "scenes": []
+  "scenes": [
+    {
+      "id": "scene_000072_00_0",
+      "name": "scene_000072_00_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000072_00_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000072_00_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000072_00_0/method_b.bin",
+          "pointCount": 105807
+        },
+        "hybrid": {
+          "url": "data/scene_000072_00_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000061_01_0",
+      "name": "scene_000061_01_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000061_01_0/original.bin",
+          "pointCount": 119492
+        },
+        "methodA": {
+          "url": "data/scene_000061_01_0/method_a.bin",
+          "pointCount": 119492
+        },
+        "methodB": {
+          "url": "data/scene_000061_01_0/method_b.bin",
+          "pointCount": 71765
+        },
+        "hybrid": {
+          "url": "data/scene_000061_01_0/hybrid.bin",
+          "pointCount": 119492
+        }
+      }
+    },
+    {
+      "id": "scene_000046_01_0",
+      "name": "scene_000046_01_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000046_01_0/original.bin",
+          "pointCount": 117531
+        },
+        "methodA": {
+          "url": "data/scene_000046_01_0/method_a.bin",
+          "pointCount": 117531
+        },
+        "methodB": {
+          "url": "data/scene_000046_01_0/method_b.bin",
+          "pointCount": 37719
+        },
+        "hybrid": {
+          "url": "data/scene_000046_01_0/hybrid.bin",
+          "pointCount": 117531
+        }
+      }
+    },
+    {
+      "id": "scene_000115_03_0",
+      "name": "scene_000115_03_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000115_03_0/original.bin",
+          "pointCount": 130254
+        },
+        "methodA": {
+          "url": "data/scene_000115_03_0/method_a.bin",
+          "pointCount": 130254
+        },
+        "methodB": {
+          "url": "data/scene_000115_03_0/method_b.bin",
+          "pointCount": 61378
+        },
+        "hybrid": {
+          "url": "data/scene_000115_03_0/hybrid.bin",
+          "pointCount": 130254
+        }
+      }
+    },
+    {
+      "id": "scene_000067_04_0",
+      "name": "scene_000067_04_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000067_04_0/original.bin",
+          "pointCount": 100453
+        },
+        "methodA": {
+          "url": "data/scene_000067_04_0/method_a.bin",
+          "pointCount": 100453
+        },
+        "methodB": {
+          "url": "data/scene_000067_04_0/method_b.bin",
+          "pointCount": 43337
+        },
+        "hybrid": {
+          "url": "data/scene_000067_04_0/hybrid.bin",
+          "pointCount": 100453
+        }
+      }
+    },
+    {
+      "id": "scene_000018_01_0",
+      "name": "scene_000018_01_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000018_01_0/original.bin",
+          "pointCount": 102463
+        },
+        "methodA": {
+          "url": "data/scene_000018_01_0/method_a.bin",
+          "pointCount": 102463
+        },
+        "methodB": {
+          "url": "data/scene_000018_01_0/method_b.bin",
+          "pointCount": 71121
+        },
+        "hybrid": {
+          "url": "data/scene_000018_01_0/hybrid.bin",
+          "pointCount": 102463
+        }
+      }
+    },
+    {
+      "id": "scene_000096_04_0",
+      "name": "scene_000096_04_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000096_04_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000096_04_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000096_04_0/method_b.bin",
+          "pointCount": 133420
+        },
+        "hybrid": {
+          "url": "data/scene_000096_04_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000064_03_0",
+      "name": "scene_000064_03_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000064_03_0/original.bin",
+          "pointCount": 154368
+        },
+        "methodA": {
+          "url": "data/scene_000064_03_0/method_a.bin",
+          "pointCount": 154368
+        },
+        "methodB": {
+          "url": "data/scene_000064_03_0/method_b.bin",
+          "pointCount": 111551
+        },
+        "hybrid": {
+          "url": "data/scene_000064_03_0/hybrid.bin",
+          "pointCount": 154368
+        }
+      }
+    },
+    {
+      "id": "scene_000068_01_0",
+      "name": "scene_000068_01_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000068_01_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000068_01_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000068_01_0/method_b.bin",
+          "pointCount": 122799
+        },
+        "hybrid": {
+          "url": "data/scene_000068_01_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000031_00_0",
+      "name": "scene_000031_00_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000031_00_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000031_00_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000031_00_0/method_b.bin",
+          "pointCount": 86748
+        },
+        "hybrid": {
+          "url": "data/scene_000031_00_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000095_04_0",
+      "name": "scene_000095_04_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000095_04_0/original.bin",
+          "pointCount": 113706
+        },
+        "methodA": {
+          "url": "data/scene_000095_04_0/method_a.bin",
+          "pointCount": 113706
+        },
+        "methodB": {
+          "url": "data/scene_000095_04_0/method_b.bin",
+          "pointCount": 44918
+        },
+        "hybrid": {
+          "url": "data/scene_000095_04_0/hybrid.bin",
+          "pointCount": 113706
+        }
+      }
+    },
+    {
+      "id": "scene_000114_01_0",
+      "name": "scene_000114_01_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000114_01_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000114_01_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000114_01_0/method_b.bin",
+          "pointCount": 125917
+        },
+        "hybrid": {
+          "url": "data/scene_000114_01_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000063_01_0",
+      "name": "scene_000063_01_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000063_01_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000063_01_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000063_01_0/method_b.bin",
+          "pointCount": 108038
+        },
+        "hybrid": {
+          "url": "data/scene_000063_01_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000067_00_0",
+      "name": "scene_000067_00_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000067_00_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000067_00_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000067_00_0/method_b.bin",
+          "pointCount": 98112
+        },
+        "hybrid": {
+          "url": "data/scene_000067_00_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000107_03_0",
+      "name": "scene_000107_03_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000107_03_0/original.bin",
+          "pointCount": 126508
+        },
+        "methodA": {
+          "url": "data/scene_000107_03_0/method_a.bin",
+          "pointCount": 126508
+        },
+        "methodB": {
+          "url": "data/scene_000107_03_0/method_b.bin",
+          "pointCount": 122485
+        },
+        "hybrid": {
+          "url": "data/scene_000107_03_0/hybrid.bin",
+          "pointCount": 126508
+        }
+      }
+    },
+    {
+      "id": "scene_000054_05_0",
+      "name": "scene_000054_05_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000054_05_0/original.bin",
+          "pointCount": 100271
+        },
+        "methodA": {
+          "url": "data/scene_000054_05_0/method_a.bin",
+          "pointCount": 100271
+        },
+        "methodB": {
+          "url": "data/scene_000054_05_0/method_b.bin",
+          "pointCount": 66637
+        },
+        "hybrid": {
+          "url": "data/scene_000054_05_0/hybrid.bin",
+          "pointCount": 100271
+        }
+      }
+    },
+    {
+      "id": "scene_000103_05_0",
+      "name": "scene_000103_05_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000103_05_0/original.bin",
+          "pointCount": 163355
+        },
+        "methodA": {
+          "url": "data/scene_000103_05_0/method_a.bin",
+          "pointCount": 163355
+        },
+        "methodB": {
+          "url": "data/scene_000103_05_0/method_b.bin",
+          "pointCount": 126279
+        },
+        "hybrid": {
+          "url": "data/scene_000103_05_0/hybrid.bin",
+          "pointCount": 163355
+        }
+      }
+    },
+    {
+      "id": "scene_000096_00_0",
+      "name": "scene_000096_00_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000096_00_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000096_00_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000096_00_0/method_b.bin",
+          "pointCount": 65681
+        },
+        "hybrid": {
+          "url": "data/scene_000096_00_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000044_00_0",
+      "name": "scene_000044_00_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000044_00_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000044_00_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000044_00_0/method_b.bin",
+          "pointCount": 79891
+        },
+        "hybrid": {
+          "url": "data/scene_000044_00_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000091_04_0",
+      "name": "scene_000091_04_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000091_04_0/original.bin",
+          "pointCount": 78840
+        },
+        "methodA": {
+          "url": "data/scene_000091_04_0/method_a.bin",
+          "pointCount": 78840
+        },
+        "methodB": {
+          "url": "data/scene_000091_04_0/method_b.bin",
+          "pointCount": 47215
+        },
+        "hybrid": {
+          "url": "data/scene_000091_04_0/hybrid.bin",
+          "pointCount": 78840
+        }
+      }
+    },
+    {
+      "id": "scene_000022_00_0",
+      "name": "scene_000022_00_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000022_00_0/original.bin",
+          "pointCount": 177929
+        },
+        "methodA": {
+          "url": "data/scene_000022_00_0/method_a.bin",
+          "pointCount": 177929
+        },
+        "methodB": {
+          "url": "data/scene_000022_00_0/method_b.bin",
+          "pointCount": 127410
+        },
+        "hybrid": {
+          "url": "data/scene_000022_00_0/hybrid.bin",
+          "pointCount": 177929
+        }
+      }
+    },
+    {
+      "id": "scene_000117_00_0",
+      "name": "scene_000117_00_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000117_00_0/original.bin",
+          "pointCount": 180000
+        },
+        "methodA": {
+          "url": "data/scene_000117_00_0/method_a.bin",
+          "pointCount": 180000
+        },
+        "methodB": {
+          "url": "data/scene_000117_00_0/method_b.bin",
+          "pointCount": 85473
+        },
+        "hybrid": {
+          "url": "data/scene_000117_00_0/hybrid.bin",
+          "pointCount": 180000
+        }
+      }
+    },
+    {
+      "id": "scene_000105_04_0",
+      "name": "scene_000105_04_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000105_04_0/original.bin",
+          "pointCount": 106822
+        },
+        "methodA": {
+          "url": "data/scene_000105_04_0/method_a.bin",
+          "pointCount": 106822
+        },
+        "methodB": {
+          "url": "data/scene_000105_04_0/method_b.bin",
+          "pointCount": 35004
+        },
+        "hybrid": {
+          "url": "data/scene_000105_04_0/hybrid.bin",
+          "pointCount": 106822
+        }
+      }
+    },
+    {
+      "id": "scene_000033_02_0",
+      "name": "scene_000033_02_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000033_02_0/original.bin",
+          "pointCount": 159739
+        },
+        "methodA": {
+          "url": "data/scene_000033_02_0/method_a.bin",
+          "pointCount": 159739
+        },
+        "methodB": {
+          "url": "data/scene_000033_02_0/method_b.bin",
+          "pointCount": 99541
+        },
+        "hybrid": {
+          "url": "data/scene_000033_02_0/hybrid.bin",
+          "pointCount": 159739
+        }
+      }
+    },
+    {
+      "id": "scene_000120_05_0",
+      "name": "scene_000120_05_0",
+      "description": "ScanBIM 20k material pseudo-labeling experiment",
+      "modes": {
+        "original": {
+          "url": "data/scene_000120_05_0/original.bin",
+          "pointCount": 106894
+        },
+        "methodA": {
+          "url": "data/scene_000120_05_0/method_a.bin",
+          "pointCount": 106894
+        },
+        "methodB": {
+          "url": "data/scene_000120_05_0/method_b.bin",
+          "pointCount": 74109
+        },
+        "hybrid": {
+          "url": "data/scene_000120_05_0/hybrid.bin",
+          "pointCount": 106894
+        }
+      }
+    }
+  ]
 }
