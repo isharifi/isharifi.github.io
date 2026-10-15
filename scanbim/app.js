@@ -177,14 +177,51 @@ async function selectScene(key) {
   }
 }
 
-async function initScenes() {
-  try {
-    const response = await fetch("./scenes.json", { cache: "no-cache" });
-    if (response.ok) {
+async function getSceneManifest() {
+  // GitHub Pages/browser caches may serve the previously published manifest
+  // immediately after a commit. Request a fresh copy; use GitHub's raw copy
+  // as a fallback if the Pages URL is temporarily unavailable or stale.
+  const sources = [
+    new URL("./scenes.json", import.meta.url).href,
+    "https://raw.githubusercontent.com/isharifi/isharifi.github.io/main/scanbim/scenes.json"
+  ];
+  const errors = [];
+  let emptyManifest = null;
+  for (const source of sources) {
+    try {
+      const url = source + (source.includes("?") ? "&" : "?") + "v=" + Date.now();
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw Error("HTTP " + response.status + " from " + source);
       const manifest = await response.json();
-      if (manifest && Array.isArray(manifest.scenes)) sceneRegistry = manifest.scenes;
+      if (!manifest || !Array.isArray(manifest.scenes)) {
+        throw Error("Manifest is missing its scenes array at " + source);
+      }
+      if (!manifest.scenes.length) {
+        emptyManifest = manifest;
+        continue;
+      }
+      console.info("ScanBIM: loaded " + manifest.scenes.length + " scenes from " + source);
+      return manifest;
+    } catch (cause) {
+      errors.push(cause instanceof Error ? cause.message : String(cause));
     }
-  } catch (e) { console.info("No scene manifest; illustrating the interface.", e); }
+  }
+  if (emptyManifest) return emptyManifest;
+  throw Error(errors.join(" | ") || "No valid scene manifest was found");
+}
+
+async function initScenes() {
+  let manifestError = "";
+  try {
+    const manifest = await getSceneManifest();
+    sceneRegistry = manifest.scenes.filter((entry) =>
+      entry && typeof entry.id === "string" && entry.modes &&
+      requestedModes.every((mode) => entry.modes[mode] && entry.modes[mode].url)
+    );
+  } catch (cause) {
+    manifestError = cause instanceof Error ? cause.message : String(cause);
+    console.error("ScanBIM scene manifest loading failed:", cause);
+  }
   const select = $("sceneSelect");
   select.replaceChildren();
   const placeholderOption = document.createElement("option");
@@ -199,6 +236,12 @@ async function initScenes() {
   });
   select.value = sceneRegistry.length ? sceneRegistry[0].id : "placeholder";
   await selectScene(select.value);
+  if (manifestError) {
+    error("The published scene list could not be loaded. " + manifestError +
+      ". You can also inspect /scanbim/scenes.json directly.");
+  } else {
+    console.info("ScanBIM scene selector initialized with " + sceneRegistry.length + " research scenes");
+  }
 }
 
 modeButtons.forEach((button) => button.addEventListener("click", () => showMode(button.dataset.mode)));
